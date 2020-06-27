@@ -46,6 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
 
     const tetronimoes = [lTetromino, zTetromino, tTetromino, oTetronimo, iTetronimo];
+    let currentPosition = 4;
+    let currentElement = tetronimoes[0][0];
+
+    // draw the first rotation of the first tetronimo
+    draw(squares, currentElement, currentPosition);
 })
 
 function buildGrid(grid) {
@@ -53,4 +58,10 @@ function buildGrid(grid) {
         let div = document.createElement("div");
         grid.appendChild(div);
     }
+}
+
+function draw(squares, currentElement, currentPosition) {
+    currentElement.forEach(index => {
+        squares[currentPosition + index].classList.add('tetronimo'); 
+    })
 }
