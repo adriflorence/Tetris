@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let random = Math.floor(Math.random()*tetronimoes.length)
     let currentPosition = 4;
     let currentRotation = 0;
-    let currentElement = tetronimoes[random][currentRotation];
+    let current = tetronimoes[random][currentRotation];
 
     // draw tetronimo
     draw();
@@ -74,16 +74,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function draw() {
-        currentElement.forEach(index => {
+        current.forEach(index => {
             squares[currentPosition + index].classList.add('tetronimo'); 
         })
     }
     
     function undraw(){
-        currentElement.forEach(index => {
+        current.forEach(index => {
             squares[currentPosition + index].classList.remove('tetronimo'); 
         })
     }
+
+    // assign functions to keyCodes
+    function control(event) {
+        if(event.keyCode === 37){
+            moveLeft()
+        }
+    }
+    document.addEventListener('keyup', control)
     
     function moveDown(){
         undraw()
@@ -93,13 +101,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function freeze(){
-        if(currentElement.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
-            currentElement.forEach(index => squares[currentPosition + index].classList.add('taken'))
+        if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             // start new tetronimo falling
             random = Math.floor(Math.random() * tetronimoes.length);
-            currentElement = tetronimoes[random][currentRotation];
+            current = tetronimoes[random][currentRotation];
             currentPosition = 4
             draw()
         }
+    }
+
+    function moveLeft(){
+        undraw()
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
+        // if none of the squares of the tetronimo is at the edge of the grid, move left
+        if(!isAtLeftEdge) currentPosition -= 1;
+
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
+            currentPosition +=1;
+        }
+
+        draw() 
     }
 })
