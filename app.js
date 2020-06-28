@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tTetromino = [
         [1, width, width+1, width+2],
-        [1, width+1, width+2, width*2+2],
+        [1, width+1, width+2, width*2+1],
         [width, width+1, width+2, width*2+1],
         [1, width, width+1, width*2+1]
     ]
@@ -90,11 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if(event.keyCode === 37){
             moveLeft()
         } else if(event.keyCode === 38) {
-            // rotate()
+            rotate()
         } else if(event.keyCode === 39) {
             moveRight()
         } else if(event.keyCode === 40) {
-            // moveDown()
+            moveDown()
         }
     }
     document.addEventListener('keyup', control)
@@ -126,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
             currentPosition +=1;
         }
-
         draw() 
     }
 
@@ -139,7 +138,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
             currentPosition -=1;
         }
-
         draw() 
+    }
+
+    function rotate(){
+        undraw()
+        currentRotation++
+        // if current rotation gets to 4 make it go back to 0
+        if(currentRotation === current.length){
+            currentRotation = 0
+        }
+        current = tetronimoes[random][currentRotation]
+        draw()
     }
 })
