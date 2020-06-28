@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // build grid
     const grid = document.querySelector(".grid");
-    buildGrid(grid);
+    buildGrid();
 
     let squares = Array.from(document.querySelectorAll('.grid div'));
     const ScoreDisplay = document.querySelector('#score');
@@ -46,22 +46,60 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
 
     const tetronimoes = [lTetromino, zTetromino, tTetromino, oTetronimo, iTetronimo];
+
+    // randomly select a tetronimo
+    let random = Math.floor(Math.random()*tetronimoes.length)
     let currentPosition = 4;
-    let currentElement = tetronimoes[0][0];
+    let currentRotation = 0;
+    let currentElement = tetronimoes[random][currentRotation];
 
-    // draw the first rotation of the first tetronimo
-    draw(squares, currentElement, currentPosition);
-})
+    // draw tetronimo
+    draw();
 
-function buildGrid(grid) {
-    for(let i = 0; i < 200; i++) {
-        let div = document.createElement("div");
-        grid.appendChild(div);
+    // move tetronimo down
+    timerId = setInterval(moveDown, 1000)
+
+    /////// METHODS ////////
+
+    function buildGrid() {
+        for(let i = 0; i < 200; i++) {
+            let div = document.createElement("div");
+            grid.appendChild(div);
+        }
+        for(let i = 0; i < 10; i++) {
+            let div = document.createElement("div");
+            div.classList.add('taken');
+            grid.appendChild(div);
+        }
     }
-}
+    
+    function draw() {
+        currentElement.forEach(index => {
+            squares[currentPosition + index].classList.add('tetronimo'); 
+        })
+    }
+    
+    function undraw(){
+        currentElement.forEach(index => {
+            squares[currentPosition + index].classList.remove('tetronimo'); 
+        })
+    }
+    
+    function moveDown(){
+        undraw()
+        currentPosition += width
+        draw()
+        freeze()
+    }
 
-function draw(squares, currentElement, currentPosition) {
-    currentElement.forEach(index => {
-        squares[currentPosition + index].classList.add('tetronimo'); 
-    })
-}
+    function freeze(){
+        if(currentElement.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            currentElement.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            // start new tetronimo falling
+            random = Math.floor(Math.random() * tetronimoes.length);
+            currentElement = tetronimoes[random][currentRotation];
+            currentPosition = 4
+            draw()
+        }
+    }
+})
