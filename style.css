@@ -1,4 +1,15 @@
+body {
+    background-color: black;
+    color: white;
+}
+
 .container {
+    margin: 0px auto;
+    width: 400px;
+}
+
+.game {
+    margin-top: 20px;
     display: flex;
 }
 
@@ -7,7 +18,7 @@
     height: 400px;
     display: flex;
     flex-wrap: wrap;
-    background-color: antiquewhite;
+    background-color: aliceblue;
 }
 
 .grid div, .mini-grid div {
@@ -21,9 +32,17 @@
     width: 80px;
     display: flex;
     flex-wrap: wrap;
-    background-color: darkmagenta;
+    background-color: aliceblue;
+    /* background-color: darkmagenta; */
 }
 
 .tetromino {
     background-color: coral;
+}
+
+button {
+    background-color: aliceblue;
+    border: none;
+    cursor: pointer;
+    padding: 1em;
 }
