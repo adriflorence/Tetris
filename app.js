@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const levelDisplay = document.querySelector('#level');
     const speedDisplay = document.querySelector('#speed');
     const startButton = document.querySelector('#start-button');
+    const restartButton = document.querySelector('#restart-button');
     const width = 10;
+
     let nextRandom = 0;
     let timerId;
     let score = 0;
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '#ff005d',
         '#1900d4',
         '#9ACD32',
-        '#0073ff'
+        '#21d6ff'
     ]
 
     // Tetrominoes
@@ -116,6 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
             moveRight()
         } else if(event.keyCode === 40) {
             moveDown()
+        } else if(event.keyCode === 32) { // space
+            drop()
         }
     }
     document.addEventListener('keyup', control)
@@ -123,6 +127,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveDown(){
         undraw()
         currentPosition += width
+        draw()
+        freeze()
+    }
+
+    function drop(){
+        undraw()
+        while(!current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            currentPosition += width
+        }
         draw()
         freeze()
     }
@@ -140,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayShape()
             addScore()
             incrementLevel()
+            incrementSpeed()
             gameOver()
         }
     }
@@ -205,12 +219,17 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    // start/stop toggle
     startButton.addEventListener('click', () => {
+        // stop game
         if(timerId){
             clearInterval(timerId)
+            startButton.innerHTML = 'RESUME';
             timerId = null
+        // start/resume game
         } else {
             draw()
+            startButton.innerHTML = 'STOP';
             timerId = setInterval(moveDown, speed)
             nextRandom = Math.floor(Math.random()*tetrominoes.length)
             displayShape()
@@ -244,10 +263,18 @@ document.addEventListener('DOMContentLoaded', () => {
         levelDisplay.innerHTML = level
     }
 
+    function incrementSpeed(){
+        if(level > 1){
+            speed = 1000 + (level * 2000)
+            speedDisplay.innerHTML = speed
+            timerId = setInterval(moveDown, speed)
+        }
+    }
+
     function gameOver(){
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
-            scoreDisplay.innerHTML = 'END';
-            clearInterval(timerId); // stop auto move down 
+            clearInterval(timerId); // stop auto move down
+            // alert("YOU ARE A POTATO!!");
         }
     }
 })
