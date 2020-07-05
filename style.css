@@ -39,15 +39,8 @@ body {
 }
 
 .box {
+    width: 300px;
     padding: 20px;
-}
-
-.left {
-    width: 200px;
-}
-
-.left .buttons {
-    display: flex;
 }
 
 .left .buttons button{
@@ -57,6 +50,10 @@ body {
 .left table {
     margin-top: 40px;
     font-size: small;
+}
+
+.left td {
+    width: 100px;
 }
 
 .chart {
@@ -85,6 +82,8 @@ body {
     border: none;
     cursor: pointer;
     padding: 1em;
+    margin-top: 10px;
+    width: 100px;
 }
 
 #start-button:hover {
@@ -95,4 +94,24 @@ body {
 #restart-button:hover {
     background-color: #1a01d4;
     color: white;
+}
+
+#alert {
+    display: none;
+    position: fixed;
+    top: 20%;
+    left: 10%;
+    height: 10em;
+    width: 70%;
+    background-color: yellowgreen;
+    color: black;
+    padding: 1em;
+    font-size: 60px;
+}
+
+#close-alert {
+    position: absolute;
+    cursor: pointer;
+    top: 10px;
+    right: 10px;
 }

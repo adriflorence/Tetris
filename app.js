@@ -11,9 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const speedDisplay = document.querySelector('#speed');
     const startButton = document.querySelector('#start-button');
     const restartButton = document.querySelector('#restart-button');
+    let alert = document.querySelector('#alert');
+    const closeAlertButton = document.querySelector('#close-alert');
     const width = 10;
 
     let nextRandom = 0;
+    let gameOver = false;
     let timerId;
     let score = 0;
     let level = 1;
@@ -110,16 +113,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // assign functions to keyCodes
     function control(event) {
-        if(event.keyCode === 37){
-            moveLeft()
-        } else if(event.keyCode === 38) {
-            rotate()
-        } else if(event.keyCode === 39) {
-            moveRight()
-        } else if(event.keyCode === 40) {
-            moveDown()
-        } else if(event.keyCode === 32) { // space
-            drop()
+        if(!gameOver){
+            if(event.keyCode === 37){
+                moveLeft()
+            } else if(event.keyCode === 38) {
+                rotate()
+            } else if(event.keyCode === 39) {
+                moveRight()
+            } else if(event.keyCode === 40) {
+                moveDown()
+            } else if(event.keyCode === 32) { // space
+                drop()
+            }
         }
     }
     document.addEventListener('keyup', control)
@@ -154,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             addScore()
             incrementLevel()
             incrementSpeed()
-            gameOver()
+            isGameOver()
         }
     }
 
@@ -236,6 +241,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    closeAlertButton.addEventListener('click', () => {
+        alert.style.display = "none";
+    })
+
+    // restart game
+    // restartButton.addEventListener('click', () => {
+    //     if(timerId){
+    //         score = 0
+    //         level = 1
+    //         speed = 1000
+    //         // clear grid
+    //         squares.forEach(square => {
+    //             square.classList.remove('tetro');
+    //             square.style.backgroundColor = '';
+    //             // square.style.borderRight = '1px solid #003d7d';
+    //             // square.style.borderBottom = '1px solid #003d7d';
+    //         });
+    //         // stop timer
+    //         clearInterval(timerId)
+    //         timerId = null
+    //     }
+    // })
+
     function addScore(){
         for(let i = 0; i < 199; i+=width){
             const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9];
@@ -271,10 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function gameOver(){
+    function isGameOver(){
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
+            gameOver = true;
             clearInterval(timerId); // stop auto move down
-            // alert("YOU ARE A POTATO!!");
+            alert.style.display = "block";
+            startButton.style.display = "none";
         }
     }
 })
