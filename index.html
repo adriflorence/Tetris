@@ -8,48 +8,63 @@
         <title>Tetris</title>
     </head>
     <body>
+        <div class="header">
+            TETRIS
+        </div>
         <div class="container">
-                <div class="left box">
+            <div class="left box">
+                <section class="buttons">
+                    <button id="start-button">START</button>
+                    <button id="restart-button">RESTART</button>
+                </section>
+                <section class="actions">
                     <table>
                         <tr>
-                            <th>Action</th>
-                            <th>Key</th>
-                        </tr>
-                        <tr>
-                            <td>Move Left</td>
+                            <td> left</td>
                             <td><i class="fa fa-arrow-left"></i></td>
                         </tr>
                         <tr>
-                            <td>Move Right</td>
+                            <td>right</td>
                             <td><i class="fa fa-arrow-right"></i></td>
                         </tr>
                         <tr>
-                            <td>Move Down</td>
+                            <td>down</td>
                             <td><i class="fa fa-arrow-down"></i></td>
                         </tr>
                         <tr>
-                            <td>Rotate</td>
+                            <td>rotate</td>
                             <td><i class="fa fa-arrow-up"></i></td>
                         </tr>
+                        <tr>
+                            <td>drop</td>
+                            <td>space</td>
+                        </tr>
                     </table>
-                </div>
-                <div class="game box">
-                    <button id="start-button">Start</button>
-                    <div class="grid"></div>
-                </div>
-                <div class="right box">
-                    <h3>Up next:</h3>
-                    <div class="mini-grid"></div>
-                    <div class="chart">
-                        <div class="chart-section">
-                            <h3>Level: <span id="level">1</span></h3>
-                        </div>
-                        <div class="chart-section">
-                            <h3>Score: <span id="score">0</span></h3>
-                        </div>
-                        <div class="chart-section">
-                            <h3>Speed: <span id="speed">1000</span></h3>
-                        </div>
+                </section>
+            </div>
+            <div class="game box">
+                <div class="grid"></div>
+            </div>
+            <div class="right box">
+                <h3>Up next:</h3>
+                <div class="mini-grid"></div>
+                <div class="chart">
+                    <div class="chart-section">
+                        <span>Level</span>
+                        <span id="level">1</span>
+                    </div>
+                    <div class="chart-section">
+                        <span>Score</span>
+                        <span id="score">0</span>
+                    </div>
+                    <div class="chart-section">
+                        <span>Speed</span>
+                        <span id="speed">1000</span>
+                    </div>
+                    <div class="chart-section">
+                        <span>
+                            <i class="fa fa-trophy" aria-hidden="true"></i>
+                        </span>
                     </div>
                 </div>
             </div>
