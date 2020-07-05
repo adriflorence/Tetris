@@ -7,17 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let squares = Array.from(document.querySelectorAll('.grid div'));
     const scoreDisplay = document.querySelector('#score');
+    const levelDisplay = document.querySelector('#level');
+    const speedDisplay = document.querySelector('#speed');
     const startButton = document.querySelector('#start-button');
     const width = 10;
     let nextRandom = 0;
     let timerId;
     let score = 0;
+    let level = 1;
+    let speed = 1000;
     const colours = [
-        'orange',
-        'red',
-        'purple',
-        'green',
-        'blue'
+        '#ff962e',
+        '#ff005d',
+        '#1900d4',
+        '#9ACD32',
+        '#0073ff'
     ]
 
     // Tetrominoes
@@ -68,8 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // draw tetromino
     draw();
 
-    // move tetromino down
-    // timerId = setInterval(moveDown, 1000)
 
     /////// METHODS ////////
 
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             draw()
             displayShape()
             addScore()
+            incrementLevel()
             gameOver()
         }
     }
@@ -208,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             timerId = null
         } else {
             draw()
-            timerId = setInterval(moveDown, 1000)
+            timerId = setInterval(moveDown, speed)
             nextRandom = Math.floor(Math.random()*tetrominoes.length)
             displayShape()
         }
@@ -234,6 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 squares.forEach(cell => grid.appendChild(cell));
             }
         }
+    }
+
+    function incrementLevel(){
+        level = Math.round(score / 100) + 1
+        levelDisplay.innerHTML = level
     }
 
     function gameOver(){

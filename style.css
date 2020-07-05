@@ -1,15 +1,12 @@
 body {
+    font-family: Arial, Helvetica, sans-serif;
     background-color: black;
     color: white;
 }
 
 .container {
-    margin: 0px auto;
-    width: 400px;
-}
-
-.game {
-    margin-top: 20px;
+    margin: 20px auto;
+    width: 600px;
     display: flex;
 }
 
@@ -18,29 +15,48 @@ body {
     height: 400px;
     display: flex;
     flex-wrap: wrap;
-    background-color: aliceblue;
+    background-color: #001f40;
+    border: 1px solid lightblue;
 }
 
 .grid div, .mini-grid div {
-    height: 20px;
-    width: 20px;
+    border-right: 1px solid #003d7d;
+    border-bottom: 1px solid #003d7d;
+    height: 19px;
+    width: 19px;
+}
+
+.taken {
+    border-right: 1px solid black !important;
+    border-bottom: 1px solid black !important;
+}
+
+.box {
+    padding: 20px;
+}
+
+.left table {
+    font-size: small;
+}
+
+.chart {
+    border: 2px solid lightblue;
+}
+
+.chart-section {
+    padding: 0 20px;
+    border: 1px solid lightblue;
 }
 
 .mini-grid {
-    margin-left: 40px;
     height: 80px;
     width: 80px;
     display: flex;
     flex-wrap: wrap;
     background-color: aliceblue;
-    /* background-color: darkmagenta; */
 }
 
-.tetromino {
-    background-color: coral;
-}
-
-button {
+#start-button {
     background-color: aliceblue;
     border: none;
     cursor: pointer;

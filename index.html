@@ -4,16 +4,54 @@
         <meta charset="utf-8">
         <script src="app.js" charset="utf-8"></script>
         <link rel="stylesheet" href="style.css"></link>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>Tetris</title>
     </head>
     <body>
         <div class="container">
-            <h3>Score: <span id="score">0</span></h3>
-            <button id="start-button">Start/Pause</button>
-    
-            <div class="game">
-                <div class="grid"></div>
-                <div class="mini-grid"></div>
+                <div class="left box">
+                    <table>
+                        <tr>
+                            <th>Action</th>
+                            <th>Key</th>
+                        </tr>
+                        <tr>
+                            <td>Move Left</td>
+                            <td><i class="fa fa-arrow-left"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Move Right</td>
+                            <td><i class="fa fa-arrow-right"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Move Down</td>
+                            <td><i class="fa fa-arrow-down"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Rotate</td>
+                            <td><i class="fa fa-arrow-up"></i></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="game box">
+                    <button id="start-button">Start</button>
+                    <div class="grid"></div>
+                </div>
+                <div class="right box">
+                    <h3>Up next:</h3>
+                    <div class="mini-grid"></div>
+                    <div class="chart">
+                        <div class="chart-section">
+                            <h3>Level: <span id="level">1</span></h3>
+                        </div>
+                        <div class="chart-section">
+                            <h3>Score: <span id="score">0</span></h3>
+                        </div>
+                        <div class="chart-section">
+                            <h3>Speed: <span id="speed">1000</span></h3>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
