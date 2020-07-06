@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveRight(){
         undraw()
         const isAtRightEdge = current.some(index => (currentPosition + index) % width === width-1)
-        // if none of the squares of the tetromino is at the edge of the grid, move left
+        // if none of the squares of the tetromino is at the edge of the grid, move right
         if(!isAtRightEdge) currentPosition += 1;
 
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
@@ -189,10 +189,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function rotate(){
         undraw()
-        currentRotation++
-        // if current rotation gets to 4 make it go back to 0
-        if(currentRotation === current.length){
-            currentRotation = 0
+        let newRotation = currentRotation + 1
+        // if new rotation gets to 4 make it go back to 0
+        if(newRotation === current.length){
+            newRotation = 0
+        }
+        newTetromino = tetrominoes[random][newRotation]
+
+        // if new rotation of tetromino would move it over the edge of the grid, do not rotate
+        const wouldBeOverTheEdge = newTetromino.some(index => (currentPosition + index) % width === 0) && newTetromino.some(index => (currentPosition + index) % width === width-1)
+
+        // if not, draw new rotation
+        if(!wouldBeOverTheEdge){
+            currentRotation = newRotation
         }
         current = tetrominoes[random][currentRotation]
         draw()
