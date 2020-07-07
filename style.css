@@ -104,7 +104,8 @@ body {
     height: 10em;
     width: 70%;
     background-color: yellowgreen;
-    color: black;
+    color: white;
+    text-align: center;
     padding: 1em;
     font-size: 60px;
 }
@@ -112,6 +113,7 @@ body {
 #close-alert {
     position: absolute;
     cursor: pointer;
+    background-color: yellowgreen;
     top: 10px;
     right: 10px;
 }

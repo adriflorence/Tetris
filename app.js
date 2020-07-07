@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = 10;
 
     let nextRandom = 0;
-    let gameOver = false;
+    let game_over = false;
     let timerId;
     let score = 0;
     let level = 1;
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // assign functions to keyCodes
     function control(event) {
-        if(!gameOver){
+        if(!game_over){
             if(event.keyCode === 37){
                 moveLeft()
             } else if(event.keyCode === 38) {
@@ -150,16 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             // start new tetromino falling
-            random = nextRandom
-            nextRandom = Math.floor(Math.random() * tetrominoes.length);
-            current = tetrominoes[random][currentRotation];
-            currentPosition = 4
-            draw()
-            displayShape()
-            addScore()
-            incrementLevel()
-            incrementSpeed()
-            isGameOver()
+            if(!game_over){
+                console.log('here');
+                random = nextRandom
+                nextRandom = Math.floor(Math.random() * tetrominoes.length);
+                current = tetrominoes[random][currentRotation];
+                currentPosition = 4
+                draw()
+                displayShape()
+                addScore()
+                incrementLevel()
+                incrementSpeed()
+            }
+            gameOver()
         }
     }
 
@@ -255,23 +258,31 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     // restart game
-    // restartButton.addEventListener('click', () => {
-    //     if(timerId){
-    //         score = 0
-    //         level = 1
-    //         speed = 1000
-    //         // clear grid
-    //         squares.forEach(square => {
-    //             square.classList.remove('tetro');
-    //             square.style.backgroundColor = '';
-    //             // square.style.borderRight = '1px solid #003d7d';
-    //             // square.style.borderBottom = '1px solid #003d7d';
-    //         });
-    //         // stop timer
-    //         clearInterval(timerId)
-    //         timerId = null
-    //     }
-    // })
+    restartButton.addEventListener('click', restartGame);
+
+    function restartGame(){
+        // display start/pause button
+        startButton.style.display = "block";
+        startButton.innerHTML = "START";
+
+        // reset settings
+        score = 0
+        level = 1
+        speed = 1000
+        
+        // clear and rebuild grid
+        while (grid.firstChild) {
+            grid.removeChild(grid.firstChild);
+        }
+        while (minigrid.firstChild) {
+            minigrid.removeChild(minigrid.firstChild);
+        }
+        buildGrid()
+        squares = Array.from(document.querySelectorAll('.grid div'));
+
+        game_over = false
+        timerId = null
+    }
 
     function addScore(){
         for(let i = 0; i < 199; i+=width){
@@ -301,16 +312,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function incrementSpeed(){
-        if(level > 1){
+        if(level > 1 && !game_over){
             speed = 1000 + (level * 2000)
             speedDisplay.innerHTML = speed
             timerId = setInterval(moveDown, speed)
         }
     }
 
-    function isGameOver(){
+    function gameOver(){
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
-            gameOver = true;
+            game_over = true;
             clearInterval(timerId); // stop auto move down
             alert.style.display = "block";
             startButton.style.display = "none";
