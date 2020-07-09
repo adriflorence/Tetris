@@ -1,19 +1,7 @@
 // fires when the initial HTML document completely loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // build grid
-    const grid = document.querySelector(".grid");
-    const minigrid = document.querySelector(".mini-grid");
-    buildGrid();
-
-    let squares = Array.from(document.querySelectorAll('.grid div'));
-    const scoreDisplay = document.querySelector('#score');
-    const levelDisplay = document.querySelector('#level');
-    const speedDisplay = document.querySelector('#speed');
     const startButton = document.querySelector('#start-button');
     const restartButton = document.querySelector('#restart-button');
-    let alert = document.querySelector('#alert');
-    const closeAlertButton = document.querySelector('#close-alert');
-    const width = 10;
 
     let nextRandom = 0;
     let game_over = false;
@@ -21,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let level = 1;
     let speed = 1000;
+
     const colours = [
         '#ff962e',
         '#ff005d',
@@ -28,6 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
         '#9ACD32',
         '#21d6ff'
     ]
+
+    let alert = document.querySelector('#alert');
+    const closeAlertButton = document.querySelector('#close-alert');
+    const width = 10;
+
+    let grid = document.querySelector(".grid");
+    let minigrid = document.querySelector(".mini-grid");
+
+    restartGame();
+
+    // let squares = Array.from(document.querySelectorAll('.grid div'));
+    const scoreDisplay = document.querySelector('#score');
+    const levelDisplay = document.querySelector('#level');
+    const speedDisplay = document.querySelector('#speed');
+
 
     // Tetrominoes
     const lTetromino = [
@@ -130,10 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keyup', control)
     
     function moveDown(){
-        undraw()
-        currentPosition += width
-        draw()
-        freeze()
+        if(game_over == false) {
+            undraw()
+            currentPosition += width
+            draw()
+            freeze()
+        }
     }
 
     function drop(){
@@ -150,20 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
             current.forEach(index => squares[currentPosition + index].classList.add('taken'))
             // start new tetromino falling
+
             if(!game_over){
-                console.log('here');
-                random = nextRandom
-                nextRandom = Math.floor(Math.random() * tetrominoes.length);
-                current = tetrominoes[random][currentRotation];
-                currentPosition = 4
-                draw()
-                displayShape()
-                addScore()
-                incrementLevel()
-                incrementSpeed()
+                launchNewTetromino();
             }
-            gameOver()
         }
+    }
+
+    function launchNewTetromino(){
+        random = nextRandom
+        nextRandom = Math.floor(Math.random() * tetrominoes.length);
+        current = tetrominoes[random][currentRotation];
+        currentPosition = 4
+        draw()
+        displayShape()
+        addScore()
+        gameOver()
     }
 
     function moveLeft(){
@@ -211,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // show up-next tetromino in mini-grid display
-    const displaySquares = document.querySelectorAll('.mini-grid div');
+    displaySquares = document.querySelectorAll('.mini-grid div');
     const displayWidth = 4;
     let displayIndex = 0;
 
@@ -240,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.addEventListener('click', () => {
         // stop game
         if(timerId){
+            console.log(timerId);
             clearInterval(timerId)
             startButton.innerHTML = 'RESUME';
             timerId = null
@@ -261,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     restartButton.addEventListener('click', restartGame);
 
     function restartGame(){
+        
         // display start/pause button
         startButton.style.display = "block";
         startButton.innerHTML = "START";
@@ -278,7 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
             minigrid.removeChild(minigrid.firstChild);
         }
         buildGrid()
+
         squares = Array.from(document.querySelectorAll('.grid div'));
+        displaySquares = document.querySelectorAll('.mini-grid div');
 
         game_over = false
         timerId = null
@@ -290,8 +302,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(row.every(index => squares[index].classList.contains('taken'))){ // if every square in a row is taken
                 // increment and display score
-                score += 10
+                score += (level * 10)
                 scoreDisplay.innerHTML = score
+
+                // increment level
+                if(score % 100 == 0){
+                    incrementLevel();
+                }
+
                 // remove squares
                 row.forEach(index => {
                     squares[index].classList.remove('taken');
@@ -309,14 +327,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function incrementLevel(){
         level = Math.round(score / 100) + 1
         levelDisplay.innerHTML = level
+        incrementSpeed();
     }
 
     function incrementSpeed(){
-        if(level > 1 && !game_over){
-            speed = 1000 + (level * 2000)
-            speedDisplay.innerHTML = speed
-            timerId = setInterval(moveDown, speed)
-        }
+        speed = 1000 + (level * 250);
+        speedDisplay.innerHTML = speed;
+        timerId = setInterval(moveDown, speed);
     }
 
     function gameOver(){
