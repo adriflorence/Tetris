@@ -100,6 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
         buildGrid();
 
         squares = Array.from(document.querySelectorAll('.grid div'));
+        displaySquares = document.querySelectorAll('.mini-grid div');
+
         game_over = false;
         score = 0;
         level = 1;
@@ -107,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         timerId = null;
         currentRotation = 0;
         currentPosition = 4;
+
+        // resets timerId
+        timerId = setInterval(moveDown, speed);
 
         scoreDisplay.innerHTML = score;
         levelDisplay.innerHTML = level;
@@ -273,11 +278,13 @@ document.addEventListener('DOMContentLoaded', () => {
     startButton.addEventListener('click', () => {
         // stop game
         if(timerId){
+            console.log('game paused');
             clearInterval(timerId)
             startButton.innerHTML = 'RESUME';
             timerId = null
         // start/resume game
         } else {
+            console.log('game resumed');
             draw()
             startButton.innerHTML = 'STOP';
             timerId = setInterval(moveDown, speed);
@@ -294,16 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
     restartButton.addEventListener('click', restartGame);
 
     function restartGame(){
-        initialiseGame();
-        
         // display start/pause button
         startButton.style.display = "block";
         startButton.innerHTML = "START";
 
-        squares = Array.from(document.querySelectorAll('.grid div'));
-        displaySquares = document.querySelectorAll('.mini-grid div');
-
-        game_over = false
+        initialiseGame();
         console.log('game restarted');
     }
 
