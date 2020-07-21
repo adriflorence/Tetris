@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.querySelector('#restart-button');
     const scoreDisplay = document.querySelector('#score');
     const levelDisplay = document.querySelector('#level');
-    const speedDisplay = document.querySelector('#speed');
     const highScoreDisplay = document.querySelector('#high-score');
     let alert = document.querySelector('#alert');
     const closeAlertButton = document.querySelector('#close-alert');
@@ -116,7 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         scoreDisplay.innerHTML = score;
         levelDisplay.innerHTML = level;
-        speedDisplay.innerHTML = speed;
 
         console.log('game initialised')
     }
@@ -346,7 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function incrementSpeed(){
         speed *= 0.9
-        speedDisplay.innerHTML = speed;
         clearInterval(timerId);
         timerId = setInterval(moveDown, speed);
     }
