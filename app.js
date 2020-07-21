@@ -25,12 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentRotation = 0;
     let currentPosition = 4;
 
-    initialiseGame();
-
     // mini-grid display
     let displaySquares = document.querySelectorAll('.mini-grid div');
     const displayWidth = 4;
     let displayIndex = 0;
+
+    initialiseGame();
 
     const colours = [
         '#ff962e',
@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPosition = 4;
 
         // resets timerId
+        clearInterval(timerId);
         timerId = setInterval(moveDown, speed);
 
         scoreDisplay.innerHTML = score;
@@ -179,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function moveDown(){
         if(game_over == false) {
+            console.log(timerId, speed);
             undraw()
             currentPosition += width
             draw()
@@ -306,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startButton.innerHTML = "START";
 
         initialiseGame();
-        console.log('game restarted');
     }
 
     function addScore(){
@@ -319,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scoreDisplay.innerHTML = score
 
                 // increment level
-                if(score % 100 == 0){
+                if(score % 50 == 0){
                     incrementLevel();
                 }
 
@@ -338,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function incrementLevel(){
-        level = Math.round(score / 100) + 1
+        level = Math.round(score / 50) + 1
         levelDisplay.innerHTML = level
         incrementSpeed();
     }
@@ -346,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function incrementSpeed(){
         speed = 1000 + (level * 250);
         speedDisplay.innerHTML = speed;
+        clearInterval(timerId);
         timerId = setInterval(moveDown, speed);
     }
 
