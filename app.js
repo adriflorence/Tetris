@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function incrementSpeed(){
-        speed = 1000 + (level * 250);
+        speed *= 0.9
         speedDisplay.innerHTML = speed;
         clearInterval(timerId);
         timerId = setInterval(moveDown, speed);
