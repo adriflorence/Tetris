@@ -38,13 +38,52 @@ body {
     border-bottom: 1px solid black !important;
 }
 
+/* BASIC ALIGNMENT */
+
 .box {
-    width: 300px;
     padding: 20px;
 }
 
-.left .buttons button{
-    margin-right: 10px;
+.left {
+    width: 20%;
+}
+
+.game {
+    width: 40%;
+}
+
+.right {
+    width: 40%;
+}
+
+/* LEFT PANEL */
+
+#start-button, #restart-button {
+    background-color: aliceblue;
+    border: none;
+    cursor: pointer;
+    padding: 1em;
+    margin-top: 10px;
+    width: 100px;
+}
+
+#start-button:hover {
+    background-color: #9ACD32;
+    color: white;
+}
+
+#restart-button:hover {
+    background-color: #1a01d4;
+    color: white;
+}
+
+.left .actions {
+    text-align: right;
+}
+
+.left .buttons button {
+    margin-left: 10px;
+    align-items: flex-end;
 }
 
 .left table {
@@ -55,6 +94,8 @@ body {
 .left td {
     width: 100px;
 }
+
+/* RIGHT PANEL */
 
 .chart {
     border: 1px solid lightblue;
@@ -77,24 +118,7 @@ body {
     background-color: aliceblue;
 }
 
-#start-button, #restart-button {
-    background-color: aliceblue;
-    border: none;
-    cursor: pointer;
-    padding: 1em;
-    margin-top: 10px;
-    width: 100px;
-}
-
-#start-button:hover {
-    background-color: #9ACD32;
-    color: white;
-}
-
-#restart-button:hover {
-    background-color: #1a01d4;
-    color: white;
-}
+/* GAME OVER */
 
 #alert {
     display: none;
