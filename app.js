@@ -113,10 +113,16 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timerId);
         timerId = setInterval(moveDown, speed);
 
-        scoreDisplay.innerHTML = score;
-        levelDisplay.innerHTML = level;
+        scoreDisplay.innerHTML = zeroPadder(score);
+        levelDisplay.innerHTML = zeroPadder(level);
 
         console.log('game initialised')
+    }
+
+    function zeroPadder(number) {
+        const length = 6;
+        let pad = new Array(1 + length).join('0');
+        return (pad + number).slice(-pad.length);
     }
 
     function buildGrid() {
@@ -303,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function restartGame(){
         // display start/pause button
         startButton.style.display = "block";
-        startButton.innerHTML = "START";
+        // startButton.innerHTML = "START";
 
         initialiseGame();
     }
@@ -315,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(row.every(index => squares[index].classList.contains('taken'))){ // if every square in a row is taken
                 // increment and display score
                 score += 10
-                scoreDisplay.innerHTML = score
+                scoreDisplay.innerHTML = zeroPadder(score);
 
                 // increment level
                 if(score % 50 == 0){
@@ -338,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function incrementLevel(){
         level = Math.round(score / 50) + 1
-        levelDisplay.innerHTML = level
+        levelDisplay.innerHTML = zeroPadder(level);
         incrementSpeed();
     }
 
@@ -355,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
             alert.style.display = "block";
             startButton.style.display = "none";
             if(score > highscore){
-                highScoreDisplay.innerHTML = score
+                highScoreDisplay.innerHTML = zeroPadder(score);
                 highscore = score
             }
         }
